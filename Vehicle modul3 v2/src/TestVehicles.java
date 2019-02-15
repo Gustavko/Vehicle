@@ -12,10 +12,13 @@ public class TestVehicles {
     } catch(CloneNotSupportedException e) {
       System.out.println("CloneNotSupportedException");
       System.exit(1);
+    } catch(InputMismatchException ex) {
+    	System.out.println("Invalid input");
+    	System.exit(1);
     }
   }
 
-  private void menuLoop() throws IOException, CloneNotSupportedException {
+  private void menuLoop() throws IOException, CloneNotSupportedException, InputMismatchException {
     Scanner scan = new Scanner(System.in);
     ArrayList<Vehicle> arr=new ArrayList<Vehicle>();
     Vehicle vehicle;
@@ -31,7 +34,8 @@ public class TestVehicles {
       System.out.println("3......................Find vehicle by name");
       System.out.println("4..............Show data about all vehicles");
       System.out.println("5.......Change direction of a given vehicle");
-      System.out.println("6..............................Exit program");
+      System.out.println("6.........................Test clone method");
+      System.out.println("7..............................Exit program");
       System.out.println(".............................Your choice?");
       int choice = scan.nextInt();
 
@@ -51,18 +55,20 @@ public class TestVehicles {
 				scan.nextLine();
 				vehicleName = scan.nextLine();
 			}
+			int numberOfVehicles = 0;
 			for (int a = 0; a < arr.size(); a++) {
 				if (vehicleName.equals(arr.get(a).getName())) {
 					System.out.println(arr.get(a).toString());
 					System.out.println();
+					numberOfVehicles++;
 				}
-				else if (a + 1 == arr.size() && (vehicleName.equals(arr.get(a).getName()) == false))
+				if ((a + 1) == arr.size() && numberOfVehicles == 0)
 					System.out.println("Couldn't find vehicle\n");
 			}
     	  }
         break;
-      case 4:
-    	  {if (arr.size() == 0)
+      case 4:{
+    	  if (arr.size() == 0)
 				System.out.println("No vehicles registered, returning to menu");
 			for (int a = 0; a < arr.size(); a++)
 					System.out.println(arr.get(a).toString());
@@ -78,8 +84,10 @@ public class TestVehicles {
 				scan.nextLine();
 				vehicleName = scan.nextLine();
 			}
+			int numberOfCars = 0;
 			for (int a = 0; a < arr.size(); a++) {
 				if (vehicleName.equals(arr.get(a).getName())) {
+					numberOfCars++;
 					System.out.print("Direction (L/R): ");
 					String direction = scan.next();
 					System.out.print("Degrees: ");
@@ -94,10 +102,21 @@ public class TestVehicles {
 						default: System.out.println("Invalid direction, returning to menu\n");
 					}
 				}
+				else if(a + 1 == arr.size() && numberOfCars == 0)
+					System.out.println("Couldn't find vehicle\n");
 			}
 		}
         break;
-      case 6:
+      case 6:{
+			Car car1 = new Car("White", "Ferrari", "1234", 2018, 1000000000, 700, 0);
+			Car car2 = (Car) car1.clone();
+			Calendar newDate = Calendar.getInstance();
+			newDate.set(2018, 3, 15);
+			car2.setBuyingDate(newDate);
+			System.out.println(car1.toString() + "\n" + car2.toString() + "\n");
+		}
+    	  break;
+      case 7:
       	scan.close();
         System.exit(0);
       default:

@@ -17,6 +17,7 @@ public class Bicycle extends Vehicle {
 	@Override
 	public void setAllFields() {
 		super.setAllFields();
+		//input = new Scanner(System.in);
 		System.out.print("Gears: ");
 		this.gears = input.nextInt();
 		System.out.println();
@@ -47,7 +48,7 @@ public class Bicycle extends Vehicle {
 	
 	@Override
 	public String toString() {
-		return super.toString() + String.format("	Gears: %d	Production date: ", getGears()) + getProductionDate();
+		return super.toString() + String.format("		Gears: %d	Production date: ", getGears()) + getProductionDate();
 	}
-	
+
 }

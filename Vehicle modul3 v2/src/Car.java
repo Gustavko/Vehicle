@@ -55,6 +55,8 @@ public class Car extends Vehicle {
 	
 	@Override
 	public String toString() {
-		return super.toString() + String.format("	Power: %d	Production date: ", getPower()) + getProductionDate();
+		return super.toString() + String.format("		Power: %d	Production date: ", getPower()) + getProductionDate();
 	}
+
+
 }

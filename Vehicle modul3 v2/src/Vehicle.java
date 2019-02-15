@@ -1,6 +1,7 @@
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Scanner;
-
-public abstract class Vehicle {
+public abstract class Vehicle implements Comparable<Vehicle>, Cloneable{
 	private String color;
 	private String name;
 	private String serialNr;
@@ -8,6 +9,7 @@ public abstract class Vehicle {
 	private int price;
 	private int direction;
 	private double speed;
+	private Calendar buyingDate;
 	protected Scanner input;
 	
 	Vehicle(){
@@ -19,6 +21,7 @@ public abstract class Vehicle {
 		this.serialNr = serialNr;
 		this.model = model;
 		this.price = price;
+		this.buyingDate = Calendar.getInstance();
 		this.speed = speed;
 	}
 	
@@ -40,6 +43,7 @@ public abstract class Vehicle {
 	public abstract void turnLeft(int degrees);
 	
 	public abstract void turnRight(int degrees);
+	
 
 	public String getColor() {
 		return color;
@@ -97,9 +101,35 @@ public abstract class Vehicle {
 		this.speed = speed;
 	}
 
+	public Calendar getBuyingDate() {
+		return buyingDate;
+	}
+
+	public void setBuyingDate(Calendar buyingDate) {
+		this.buyingDate = buyingDate;
+	}
+	
+	public int compareTo(Vehicle a){
+		if (this.getPrice() > a.getPrice())
+			return 1;
+		if (this.getPrice() < a.getPrice())
+			return -1;
+		else
+			return 0;
+	}
+	
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		Vehicle a = (Vehicle)super.clone(); 
+		a.setBuyingDate((Calendar)buyingDate.clone());
+		return super.clone();
+	}
+	
 	@Override
 	public String toString() {
-		return String.format("Name: %s	Color: %s	Serial number: %s	Model: %d	Price: %d	Direction: %d	Speed: %.2f", 
-				getName(), getColor(), getSerialNr(), getModel(), getPrice(), getDirection(), getSpeed());
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+		return String.format("Name: %s	Color: %s	Serial number: %s	Model: %d	Price: %d	Direction: %d	Speed: %.2f	Buying date: ", 
+				getName(), getColor(), getSerialNr(), getModel(), getPrice(), getDirection(), getSpeed()) + format1.format(getBuyingDate().getTime());
 	}
+
 }
