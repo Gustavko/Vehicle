@@ -35,7 +35,8 @@ public class TestVehicles {
       System.out.println("4..............Show data about all vehicles");
       System.out.println("5.......Change direction of a given vehicle");
       System.out.println("6.........................Test clone method");
-      System.out.println("7..............................Exit program");
+      System.out.println("7..................Test driveable interface");
+      System.out.println("8..............................Exit program");
       System.out.println(".............................Your choice?");
       int choice = scan.nextInt();
 
@@ -116,7 +117,27 @@ public class TestVehicles {
 			System.out.println(car1.toString() + "\n" + car2.toString() + "\n");
 		}
     	  break;
-      case 7:
+      case 7:{
+    	  Car car1 = new Car("White", "Ferrari", "1234", 2018, 1000000000, 700, 0);
+			Bicycle bicycle1 = new Bicycle("Blue", "Merida", "4321", 5, 5000, 24, 0);
+			System.out.println("Car: ");
+			car1.accelerate(10);
+			car1.accelerate(35);
+			car1.accelerate(35);
+			car1.breaks(5);
+			car1.breaks(7);
+			car1.stop();
+			
+			System.out.println("\nBicycle: ");
+			bicycle1.accelerate(8);
+			bicycle1.accelerate(60);
+			bicycle1.breaks(10);
+			bicycle1.breaks(3);
+			bicycle1.stop();
+			System.out.println();
+      }
+    	  break;
+      case 8:
       	scan.close();
         System.exit(0);
       default:

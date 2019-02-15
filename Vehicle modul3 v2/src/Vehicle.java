@@ -1,7 +1,7 @@
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Scanner;
-public abstract class Vehicle implements Comparable<Vehicle>, Cloneable{
+public abstract class Vehicle implements Comparable<Vehicle>, Cloneable, Driveable {
 	private String color;
 	private String name;
 	private String serialNr;
@@ -44,6 +44,10 @@ public abstract class Vehicle implements Comparable<Vehicle>, Cloneable{
 	
 	public abstract void turnRight(int degrees);
 	
+	public void stop() {
+		setSpeed(0);
+		System.out.println("Speed is set to 0 km/h");
+	}
 
 	public String getColor() {
 		return color;

@@ -51,4 +51,30 @@ public class Bicycle extends Vehicle {
 		return super.toString() + String.format("		Gears: %d	Production date: ", getGears()) + getProductionDate();
 	}
 
+	@Override
+	public void accelerate(int speedFactor) {
+		if (speedFactor < 0) {
+			System.out.println("Invalid factor");
+			return;
+		}
+		else if (getSpeed() == 0)
+			setSpeed(0.3*speedFactor);
+		else if (getSpeed() * 0.5 * speedFactor > Driveable.MAX_SPEED_BIKE)
+			setSpeed(Driveable.MAX_SPEED_BIKE);
+		else
+			setSpeed(getSpeed() * 0.5 * speedFactor);
+		System.out.printf("Vehicle accelerated to %.2f km/h\n", getSpeed());
+	}
+
+	@Override
+	public void breaks(int speedFactor) {
+		if (speedFactor < 0) {
+			System.out.println("Invalid factor");
+			return;
+		}
+		else
+			setSpeed(getSpeed() / (speedFactor * 0.5));
+		System.out.printf("Vehicle slowed down to %.2f km/h\n", getSpeed());
+	}
+	
 }

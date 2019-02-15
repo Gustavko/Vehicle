@@ -58,5 +58,32 @@ public class Car extends Vehicle {
 		return super.toString() + String.format("		Power: %d	Production date: ", getPower()) + getProductionDate();
 	}
 
+	@Override
+	public void accelerate(int speedFactor) {
+		if (speedFactor < 0) {
+			System.out.println("Invalid factor");
+			return;
+		}
+		else if (getSpeed() == 0)
+			setSpeed(0.5 * speedFactor);
+		else if (getSpeed()*speedFactor > Driveable.MAX_SPEED_CAR)
+			setSpeed(Driveable.MAX_SPEED_CAR);
+		else
+			setSpeed(getSpeed()*speedFactor);
+		System.out.printf("Vehicle accelerated to %.2f km/h\n", getSpeed());
+		
+	}
+
+	@Override
+	public void breaks(int speedFactor) {
+		if (speedFactor < 0) {
+			System.out.println("Invalid factor");
+			return;
+		}
+		else
+			setSpeed(getSpeed()/speedFactor);
+		System.out.printf("Vehicle slowed down to %.2f km/h\n", getSpeed());
+	}
+	
 
 }
