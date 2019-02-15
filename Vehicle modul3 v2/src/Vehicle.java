@@ -1,6 +1,9 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Scanner;
-
-public abstract class Vehicle {
+public abstract class Vehicle implements Comparable<Vehicle>, Cloneable, Driveable, Fileable {
 	private String color;
 	private String name;
 	private String serialNr;
@@ -8,6 +11,7 @@ public abstract class Vehicle {
 	private int price;
 	private int direction;
 	private double speed;
+	private Calendar buyingDate;
 	protected Scanner input;
 	
 	Vehicle(){
@@ -19,6 +23,7 @@ public abstract class Vehicle {
 		this.serialNr = serialNr;
 		this.model = model;
 		this.price = price;
+		this.buyingDate = Calendar.getInstance();
 		this.speed = speed;
 	}
 	
@@ -40,6 +45,11 @@ public abstract class Vehicle {
 	public abstract void turnLeft(int degrees);
 	
 	public abstract void turnRight(int degrees);
+	
+	public void stop() {
+		setSpeed(0);
+		System.out.println("Speed is set to 0 km/h");
+	}
 
 	public String getColor() {
 		return color;
@@ -97,9 +107,53 @@ public abstract class Vehicle {
 		this.speed = speed;
 	}
 
+	public Calendar getBuyingDate() {
+		return buyingDate;
+	}
+
+	public void setBuyingDate(Calendar buyingDate) {
+		this.buyingDate = buyingDate;
+	}
+	
+	public int compareTo(Vehicle a){
+		if (this.getPrice() > a.getPrice())
+			return 1;
+		if (this.getPrice() < a.getPrice())
+			return -1;
+		else
+			return 0;
+	}
+	
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		Vehicle a = (Vehicle)super.clone(); 
+		a.setBuyingDate((Calendar)buyingDate.clone());
+		return super.clone();
+	}
+	
+	public void writeData(PrintWriter out) throws IOException{
+		System.out.print("Vehicle written to file:");
+		out.printf("%s,%s,%s,%d,%d,%d,%.2f,%D", name, color, serialNr, model, price, direction, speed, buyingDate);
+	}
+	
+	public void readData(Scanner in) throws IOException{
+		System.out.print("Vehicle read from file:");
+		name = in.next();
+		color = in.next();
+		serialNr = in.next();
+		model = in.nextInt();
+		price = in.nextInt();
+		direction = in.nextInt();
+		speed = in.nextDouble();
+		//buyingDate = in.next(pattern)
+		
+	}
+	
 	@Override
 	public String toString() {
-		return String.format("Name: %s	Color: %s	Serial number: %s	Model: %d	Price: %d	Direction: %d	Speed: %.2f", 
-				getName(), getColor(), getSerialNr(), getModel(), getPrice(), getDirection(), getSpeed());
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+		return String.format("Name: %s	Color: %s	Serial number: %s	Model: %d	Price: %d	Direction: %d	Speed: %.2f	Buying date: ", 
+				getName(), getColor(), getSerialNr(), getModel(), getPrice(), getDirection(), getSpeed()) + format1.format(getBuyingDate().getTime());
 	}
+
 }
